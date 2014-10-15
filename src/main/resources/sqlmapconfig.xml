@@ -4,6 +4,6 @@
   "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
 	<mappers>
-		<!-- <mapper resource="mapper/ActivityMapper.xml" /> -->
+		<mapper resource="mapper/SingleMapper.xml" />
 	</mappers>
 </configuration>
