@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xuanwu.web.wechat.dao.mapper.AccountMapper">
+
+	<resultMap id="account" type="com.xuanwu.web.wechat.entity.Account">
+		<id property="id" column="id" />
+		<id property="entId" column="ent_id" />
+		<id property="openId" column="open_id" />
+		<id property="nick" column="nick" />
+		<id property="email" column="email" />
+		<id property="name" column="name" />
+		<id property="stateIdx" column="state" />
+		<id property="token" column="token" />
+		<id property="appId" column="app_id" />
+		<id property="appSecret" column="app_secret" />
+		<id property="userId" column="user_id" />
+		<id property="remark" column="remark" />
+		<id property="addTime" column="add_time" />
+		<id property="modifyTime" column="modify_time" />
+		<id property="statusIdx" column="status" />
+		<id property="syncMember" column="sync_member" />
+		<result property="accessToken" column="access_token" />
+		<result property="expireTime" column="expire_time" />
+		<association property="userName" column="user_id" select="findUserNameById" />
+	</resultMap>
+
+	<select id="findAccount" resultMap="account">
+		select * from wechat_account where state!=2
+		<choose>
+			<when test="type.index==0">and id=#{idOrName}</when>
+			<when test="type.index==1">and ent_id=#{entId} and open_id=#{idOrName}</when>
+			<when test="type.index==2">and email=#{idOrName}</when>
+			<when test="type.index==3">and ent_id=#{entId} and name=#{idOrName}</when>
+		</choose>
+	</select>
+
+	<select id="findAccountsCount" resultType="int">
+		select count(*) from wechat_account where state!=2
+		<if test="entId>0">and ent_id=#{entId}</if>
+		<if test="state!=null">and state=#{state.index}</if>
+		<if test="email!=null">and email like concat('%',#{email},'%')</if>
+		<if test="name!=null">and name like concat('%',#{name},'%')</if>
+		<if test="nick!=null">and nick like concat('%',#{nick},'%')</if>
+	</select>
+
+	<select id="findAccounts" resultMap="account">
+		select * from wechat_account where state!=2
+		<if test="entId>0">and ent_id=#{entId}</if>
+		<if test="state!=null">and state=#{state.index}</if>
+		<if test="email!=null">and email like concat('%',#{email},'%')</if>
+		<if test="name!=null">and name like concat('%',#{name},'%')</if>
+		<if test="nick!=null">and nick like concat('%',#{nick},'%')</if>
+		order by id desc
+		<if test="reqNum>0">limit #{offset},#{reqNum}</if>
+	</select>
+
+	<insert id="addAccount">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">select last_insert_id()</selectKey>
+		insert into wechat_account
+		(`open_id`,`nick`,`email`,`name`,`state`,`token`,`app_id`,`app_secret`,`user_id`,`remark`,`add_time`,`status`,`sync_member`,`ent_id`)
+		values
+		(#{openId},#{nick},#{email},#{name},#{state.index},#{token},#{appId},#{appSecret},#{userId},#{remark},#{addTime},#{status.index},#{syncMember},#{entId})
+	</insert>
+
+	<update id="updateAccount">
+		update wechat_account set `open_id`=#{openId},`nick`=#{nick},`email`=#{email},`name`=#{name},
+		`state`=#{state.index},`token`=#{token},`app_id`=#{appId},`app_secret`=#{appSecret},
+		`user_id`=#{userId},`remark`=#{remark},
+		`modify_time`=#{modifyTime},`status`=#{status.index}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteAccountById">
+		update wechat_account set state=2 where id=#{id}
+	</delete>
+
+	<update id="updateAccountState">
+		update wechat_account set `state`=#{state.index} where id=#{id}
+	</update>
+
+	<update id="updateSyncMember">
+		update wechat_account set `sync_member`=#{sync} where id=#{id}
+	</update>
+
+	<update id="updateAccountStatus">
+		update wechat_account set `status`=#{status.index} where id=#{id}
+	</update>
+
+	<update id="updateAccountOpenId">
+		update wechat_account set `open_id`=#{openId} where id=#{id}
+	</update>
+
+	<update id="updateAccessToken">
+		update wechat_account set access_token=#{accessToken},expire_time=#{expireTime} where id=#{id}
+	</update>
+
+	<select id="findUserNameById" resultType="String">
+		select user_name from gsms_user where id=#{id}
+	</select>
+
+
+	<!-- findAccounts  -->
+	<select id="findAccountsByEntId" resultMap="account">
+		select * from wechat_account where ent_id=#{entId}
+		<if test="state!=null">and state=#{state.index}</if>
+		order by id desc
+	</select>
+	<select id="findAccountsLimit" resultType="int">
+		select wechat_limit_number from gsms_user_ext where enterprise_id=#{entId};
+	</select>
+
+</mapper>
