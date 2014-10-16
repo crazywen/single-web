@@ -116,12 +116,18 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<!-- 
 		<dependency> 
 			<groupId>org.sqlite</groupId> 
 			<artifactId>JDBC</artifactId> 
 			<version>1.0</version> 
 			<scope>system</scope> 
 			<systemPath>${basedir}/src/main/resources/lib/sqlitejdbc-v033-nested.jar</systemPath> 
+		</dependency> -->
+		<dependency> 
+			<groupId>org.xerial</groupId> 
+			<artifactId>sqlite-jdbc</artifactId> 
+			<version>3.7.2</version> 
 		</dependency>
 	</dependencies>
 	<build>

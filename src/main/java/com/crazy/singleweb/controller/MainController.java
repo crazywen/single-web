@@ -12,7 +12,7 @@ import com.crazy.singleweb.entity.User;
 import com.crazy.singleweb.service.SingleService;
 
 /**
- * @Description:��������
+ * @Description:
  * @Author <a href="liujiawen@139130.net">Jiawen.Liu</a>
  * @Date 2014-10-15
  * @Version 1.0.0

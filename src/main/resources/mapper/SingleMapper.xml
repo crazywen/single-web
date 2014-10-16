@@ -34,8 +34,8 @@
 		<result property="type" column="type" />
 	</resultMap>
 	
-	<select id="findUserByName">
-		select * from sg_user where name=#{name};
+	<select id="findUserByName" resultMap="user">
+		select * from sg_user where name=#{name}
 	</select>
 
 

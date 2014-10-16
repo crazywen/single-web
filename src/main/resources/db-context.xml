@@ -20,14 +20,13 @@
 		<property name="url">
 			<value>${gsms.url}</value>
 		</property>
-		<!-- 
 		<property name="username">
 			<value>${gsms.username}</value>
 		</property>
 		<property name="password">
 			<value>${gsms.password}</value>
 		</property>
-		<property name="validationQuery">
+		<!--<property name="validationQuery">
 			<value>${gsms.validQuery}</value>
 		</property>
 		<property name="testOnBorrow">
