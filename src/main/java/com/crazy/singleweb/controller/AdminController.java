@@ -3,6 +3,7 @@ package com.crazy.singleweb.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -41,18 +42,24 @@ public class AdminController {
 	public String adminMain(Model model) {
 		return Keys.KEY_ADMIN_MAIN;
 	}
-
+	
 	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN)
+	public String preLogin(Model model) {
+		return Keys.KEY_ADMIN_LOGIN;
+	}
+
+	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN,params="action=doLogin")
 	public String login(Model model, HttpServletRequest hreq, String username,
 			String password) {
 		try {
 			Subject subject = SecurityUtils.getSubject();
 			String md5Pwd = DigestUtils.md5Hex(password);
 			UsernamePasswordToken token = new UsernamePasswordToken(username,
-					password);
+					md5Pwd);
 			subject.login(token);
 			User user = SessionUtil.getCurUser();
 			hreq.getSession().setAttribute("fromLogin", true);
+			return "redirect:" + Keys.KEY_ADMIN_IDX;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +68,8 @@ public class AdminController {
 
 	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEPWD)
 	public String updatePwd(Model model, String oldPwd, String newPwd) {
-		singleService.updatePwd(1, genSecretPwd(newPwd));
+		User user = SessionUtil.getCurUser();
+		singleService.updatePwd(user.getId(), genSecretPwd(newPwd));
 		return Keys.KEY_ADMIN_UPDATEPWD;
 	}
 
@@ -75,7 +83,10 @@ public class AdminController {
 	}
 
 	public String genSecretPwd(String pwd) {
-		return pwd;
+		if(StringUtils.isBlank(pwd)){
+			return null;
+		}
+		return DigestUtils.md5Hex(pwd);
 	}
 
 	@Autowired
@@ -86,5 +97,9 @@ public class AdminController {
 	@Autowired
 	public void setInnerMsgService(InnerMsgService innerMsgService) {
 		this.innerMsgService = innerMsgService;
+	}
+	
+	public static void main(String[] args){
+		System.out.println(DigestUtils.md5Hex("123456"));
 	}
 }

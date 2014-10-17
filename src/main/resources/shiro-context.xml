@@ -18,9 +18,9 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/** = anonFilter
+				/** = urlFilter
 				/admin/login = anonFilter
-				/admin/** = urlFilter
+				/admin/* = urlFilter
 			</value>
 		</property>
 	</bean>
