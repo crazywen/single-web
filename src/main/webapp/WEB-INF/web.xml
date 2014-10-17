@@ -4,6 +4,7 @@
 
 <web-app>
 	<display-name>Single-Web</display-name>
+	<description>My Single Web!</description>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>singleweb.root</param-value>
@@ -19,15 +20,6 @@
 		<param-value>WEB-INF/classes/log4j.xml</param-value>
 	</context-param>
 
-	<listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	</listener>
-	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
-	<!-- -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -40,8 +32,8 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping> 
-
-	<!-- <filter>
+	<!-- 
+	<filter>
 		<filter-name>CharacterEncoding</filter-name>
 		<filter-class>com.xuanwu.web.wechat.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
@@ -53,6 +45,14 @@
 		<filter-name>CharacterEncoding</filter-name>
 		<url-pattern>/cgi-bin/*</url-pattern>
 	</filter-mapping>-->
+
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
