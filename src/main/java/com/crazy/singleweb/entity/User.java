@@ -2,8 +2,9 @@ package com.crazy.singleweb.entity;
 
 /**
  * 用户实体类
+ * 
  * @author liujiawen
- *
+ * 
  */
 public class User {
 
@@ -87,6 +88,14 @@ public class User {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", account=" + account
+				+ ", pwd=" + pwd + ", type=" + type + ", email=" + email
+				+ ", phone=" + phone + ", address=" + address + ", remark="
+				+ remark + "]";
 	}
 
 }

@@ -13,7 +13,7 @@
 		<result property="address" column="address" />
 		<result property="remark" column="remark" />
 	</resultMap>
-	
+
 	<resultMap id="menu" type="com.crazy.singleweb.entity.Menu">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
@@ -23,20 +23,82 @@
 		<result property="type" column="type" />
 		<result property="remark" column="remark" />
 	</resultMap>
-	
+
 	<resultMap id="entity" type="com.crazy.singleweb.entity.Entity">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
-		<result property="createTime" column="createTime" />
+		<result property="createTime" column="create_time" />
 		<result property="url" column="url" />
 		<result property="linkUrl" column="link_url" />
 		<result property="tag" column="tag" />
 		<result property="type" column="type" />
 	</resultMap>
-	
+
 	<select id="findUserByName" resultMap="user">
-		select * from sg_user where name=#{name}
+		select * from sg_user
+		where name=#{name}
 	</select>
+
+	<select id="findUsers" resultMap="user">
+		select * from sg_user
+		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
+	</select>
+
+	<select id="findMenus" resultMap="munu">
+		select * from sg_menu
+		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
+	</select>
+
+	<select id="findEntitys" resultMap="entity">
+		select * from sg_entity
+		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
+	</select>
+
+	<update id="updatePwd">
+		update sg_user set pwd =#{pwd} where
+		id=#{id}
+	</update>
+
+	<update id="updateUser">
+		update sg_user set
+		name=#{name},email=#{email},phone=#{phone},address=#{address}
+		where
+		id=#{id}
+	</update>
+
+	<insert id="addMenu" parameterType="menu">
+		insert into
+		sg_menu(name,display_name,link_url,pic_url,type,remark)
+		values(#{name},#{displayName},#{linkUrl},#{picUrl},#{type},#{remark})
+	</insert>
+
+	<update id="updateMenu">
+		update sg_menu set
+		name=#{name},display_name=#{displayName},link_url=#{linkUrl},pic_url=#{picUrl},remark=#{remark}
+		where
+		id=#{id}
+	</update>
+
+	<delete id="deleteMenu">
+		delete from sg_menu where id=#{id}
+	</delete>
+
+	<insert id="addEntity" parameterType="entity">
+		insert into
+		sg_entity(name,create_time,`url`,link_url,tag,type)
+		values(#{name},#{createTime},#{url},#{linkUrl},#{tag},#{type})
+	</insert>
+
+	<update id="updateEntity">
+		update sg_entity set
+		name=#{name},`url`=#{url},link_url=#{linkUrl},tag=#{tag},remark=#{remark}
+		where
+		id=#{id}
+	</update>
+
+	<delete id="deleteEntity">
+		delete from sg_entity where id=#{id}
+	</delete>
 
 
 </mapper>
