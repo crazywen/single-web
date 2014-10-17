@@ -51,7 +51,7 @@ public class MainController {
 	public String rootPath(Model model) {
 		List<Menu> menus = getMenus();
 		model.addAttribute("menus", menus);
-		return Keys.KEY_IDX;
+		return /* "redirect:"+ */Keys.KEY_IDX;
 	}
 
 	@RequestMapping(value = Keys.KEY_SHOW_CASE)

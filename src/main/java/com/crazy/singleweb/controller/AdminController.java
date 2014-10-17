@@ -1,14 +1,22 @@
 package com.crazy.singleweb.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.crazy.singleweb.entity.Menu;
+import com.crazy.singleweb.entity.User;
 import com.crazy.singleweb.service.InnerMsgService;
 import com.crazy.singleweb.service.SingleService;
 import com.crazy.singleweb.util.Keys;
+import com.crazy.singleweb.util.SessionUtil;
 
 /**
  * 
@@ -29,10 +37,32 @@ public class AdminController {
 		return Keys.KEY_ADMIN_IDX;
 	}
 
-	@RequestMapping(value = Keys.KEY_ADMIN_IDX)
+	@RequestMapping(value = Keys.KEY_ADMIN_MAIN)
+	public String adminMain(Model model) {
+		return Keys.KEY_ADMIN_MAIN;
+	}
+
+	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN)
+	public String login(Model model, HttpServletRequest hreq, String username,
+			String password) {
+		try {
+			Subject subject = SecurityUtils.getSubject();
+			String md5Pwd = DigestUtils.md5Hex(password);
+			UsernamePasswordToken token = new UsernamePasswordToken(username,
+					password);
+			subject.login(token);
+			User user = SessionUtil.getCurUser();
+			hreq.getSession().setAttribute("fromLogin", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:" + Keys.KEY_ADMIN_IDX;
+	}
+
+	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEPWD)
 	public String updatePwd(Model model, String oldPwd, String newPwd) {
 		singleService.updatePwd(1, genSecretPwd(newPwd));
-		return Keys.KEY_ADMIN_IDX;
+		return Keys.KEY_ADMIN_UPDATEPWD;
 	}
 
 	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEMENU)

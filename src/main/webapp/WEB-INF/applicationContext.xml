@@ -10,6 +10,7 @@
       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<import resource="classpath:/mvc-context.xml" />
+	<import resource="classpath:/shiro-context.xml" />
 	<import resource="classpath:/db-context.xml" />
 
 	<!-- Activates scanning of @Autowired -->

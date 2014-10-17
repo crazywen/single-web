@@ -44,7 +44,7 @@
 		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
 	</select>
 
-	<select id="findMenus" resultMap="munu">
+	<select id="findMenus" resultMap="menu">
 		select * from sg_menu
 		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
 	</select>
@@ -66,7 +66,7 @@
 		id=#{id}
 	</update>
 
-	<insert id="addMenu" parameterType="menu">
+	<insert id="addMenu">
 		insert into
 		sg_menu(name,display_name,link_url,pic_url,type,remark)
 		values(#{name},#{displayName},#{linkUrl},#{picUrl},#{type},#{remark})
@@ -83,7 +83,7 @@
 		delete from sg_menu where id=#{id}
 	</delete>
 
-	<insert id="addEntity" parameterType="entity">
+	<insert id="addEntity">
 		insert into
 		sg_entity(name,create_time,`url`,link_url,tag,type)
 		values(#{name},#{createTime},#{url},#{linkUrl},#{tag},#{type})
