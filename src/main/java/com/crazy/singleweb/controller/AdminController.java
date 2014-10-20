@@ -39,6 +39,13 @@ public class AdminController {
 		model.addAttribute("user", user);
 		return Keys.KEY_ADMIN_IDX;
 	}
+	
+	@RequestMapping(value = Keys.KEY_ADMIN_USERINFO)
+	public String userinfo(Model model) {
+		User user = SessionUtil.getCurUser();
+		model.addAttribute("user", user);
+		return Keys.KEY_ADMIN_USERINFO;
+	}
 
 	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN)
 	public String preLogin(Model model) {

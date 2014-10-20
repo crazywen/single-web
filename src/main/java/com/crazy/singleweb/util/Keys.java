@@ -12,6 +12,7 @@ public class Keys {
 	public static final String KEY_ADMIN_LOGIN = "/admin/login";
 	public static final String KEY_ADMIN_IDX = "/admin/index";
 	public static final String KEY_ADMIN_MAIN = "/admin/main";
+	public static final String KEY_ADMIN_USERINFO = "/admin/userinfo";
 	public static final String KEY_ADMIN_UPDATEPWD = "/admin/updatePwd";
 	public static final String KEY_ADMIN_UPDATEMENU = "/admin/updateMenu";
 
