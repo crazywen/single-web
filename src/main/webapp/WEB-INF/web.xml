@@ -1,8 +1,8 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="Single-Web" version="3.0">
 	<display-name>Single-Web</display-name>
 	<description>My Single Web!</description>
 	<context-param>
@@ -20,6 +20,14 @@
 		<param-value>WEB-INF/classes/log4j.xml</param-value>
 	</context-param>
 
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -45,14 +53,6 @@
 		<filter-name>CharacterEncoding</filter-name>
 		<url-pattern>/cgi-bin/*</url-pattern>
 	</filter-mapping>-->
-
-	<listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	</listener>
-	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>

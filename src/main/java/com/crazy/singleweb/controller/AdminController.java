@@ -35,20 +35,21 @@ public class AdminController {
 
 	@RequestMapping(value = Keys.KEY_ADMIN_IDX)
 	public String adminIdx(Model model) {
+		User user = SessionUtil.getCurUser();
+		model.addAttribute("user", user);
 		return Keys.KEY_ADMIN_IDX;
 	}
 
-	@RequestMapping(value = Keys.KEY_ADMIN_MAIN)
-	public String adminMain(Model model) {
-		return Keys.KEY_ADMIN_MAIN;
-	}
-	
 	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN)
 	public String preLogin(Model model) {
+		User user = SessionUtil.getCurUser();
+		if (null != user) {
+			return "redirect:" + Keys.KEY_ADMIN_IDX;
+		}
 		return Keys.KEY_ADMIN_LOGIN;
 	}
 
-	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN,params="action=doLogin")
+	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN, params = "action=doLogin")
 	public String login(Model model, HttpServletRequest hreq, String username,
 			String password) {
 		try {
@@ -57,13 +58,12 @@ public class AdminController {
 			UsernamePasswordToken token = new UsernamePasswordToken(username,
 					md5Pwd);
 			subject.login(token);
-			User user = SessionUtil.getCurUser();
 			hreq.getSession().setAttribute("fromLogin", true);
 			return "redirect:" + Keys.KEY_ADMIN_IDX;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:" + Keys.KEY_ADMIN_IDX;
+		return "redirect:" + Keys.KEY_ADMIN_LOGIN;
 	}
 
 	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEPWD)
@@ -83,7 +83,7 @@ public class AdminController {
 	}
 
 	public String genSecretPwd(String pwd) {
-		if(StringUtils.isBlank(pwd)){
+		if (StringUtils.isBlank(pwd)) {
 			return null;
 		}
 		return DigestUtils.md5Hex(pwd);
@@ -98,8 +98,8 @@ public class AdminController {
 	public void setInnerMsgService(InnerMsgService innerMsgService) {
 		this.innerMsgService = innerMsgService;
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(DigestUtils.md5Hex("123456"));
 	}
 }
