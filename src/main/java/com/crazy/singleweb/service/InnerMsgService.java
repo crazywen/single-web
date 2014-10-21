@@ -3,7 +3,7 @@ package com.crazy.singleweb.service;
 /**
  * 
  * @Description:内部通信服务
- * @Author <a href="liujiawen@139130.net">Jiawen.Liu</a>
+ * @Author <a href="xnxxljw@163.com">Jiawen.Liu</a>
  * @Date 2014-10-17
  * @Version 1.0.0
  */
