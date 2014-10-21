@@ -2,7 +2,7 @@ package com.crazy.singleweb.entity;
 
 import java.util.Date;
 
-public class Entity {
+public class Entity extends BaseEntity{
 	private int id;
 	private String name;
 	private Date createTime;
@@ -51,6 +51,10 @@ public class Entity {
 	}
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	@Override
+	public String toJSON() {
+		return null;
 	}
 	
 	

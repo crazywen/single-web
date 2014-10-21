@@ -37,7 +37,7 @@ a,span{color:red;}
                 </tr>
             	<tr>
                 	<td class="left">密码:</td>
-                    <td><input class="right two" type="text" name="password" id="password"/></td>
+                    <td><input class="right two" type="password" name="password" id="password"/></td>
                 </tr>
                 <!-- 
                 <tr>

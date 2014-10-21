@@ -16,4 +16,9 @@ public class Keys {
 	public static final String KEY_ADMIN_UPDATEPWD = "/admin/updatePwd";
 	public static final String KEY_ADMIN_UPDATEMENU = "/admin/updateMenu";
 
+	public static final String AJAX_JSON = "/public/ajax_json";
+	public static final String AJAX_HTML = "/public/ajax_html";
+	
+	public static final String JSON_DATA = "jsonData";
+
 }

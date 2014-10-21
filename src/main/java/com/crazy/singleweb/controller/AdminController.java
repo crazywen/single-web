@@ -16,6 +16,7 @@ import com.crazy.singleweb.entity.Menu;
 import com.crazy.singleweb.entity.User;
 import com.crazy.singleweb.service.InnerMsgService;
 import com.crazy.singleweb.service.SingleService;
+import com.crazy.singleweb.util.JsonUtil;
 import com.crazy.singleweb.util.Keys;
 import com.crazy.singleweb.util.SessionUtil;
 
@@ -39,7 +40,7 @@ public class AdminController {
 		model.addAttribute("user", user);
 		return Keys.KEY_ADMIN_IDX;
 	}
-	
+
 	@RequestMapping(value = Keys.KEY_ADMIN_USERINFO)
 	public String userinfo(Model model) {
 		User user = SessionUtil.getCurUser();
@@ -59,8 +60,8 @@ public class AdminController {
 	@RequestMapping(value = Keys.KEY_ADMIN_LOGIN, params = "action=doLogin")
 	public String login(Model model, HttpServletRequest hreq, String username,
 			String password) {
+		Subject subject = SecurityUtils.getSubject();
 		try {
-			Subject subject = SecurityUtils.getSubject();
 			String md5Pwd = DigestUtils.md5Hex(password);
 			UsernamePasswordToken token = new UsernamePasswordToken(username,
 					md5Pwd);
@@ -69,6 +70,7 @@ public class AdminController {
 			return "redirect:" + Keys.KEY_ADMIN_IDX;
 		} catch (Exception e) {
 			e.printStackTrace();
+			subject.logout();
 		}
 		return "redirect:" + Keys.KEY_ADMIN_LOGIN;
 	}
@@ -76,8 +78,17 @@ public class AdminController {
 	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEPWD)
 	public String updatePwd(Model model, String oldPwd, String newPwd) {
 		User user = SessionUtil.getCurUser();
+		if (StringUtils.isBlank(newPwd) || StringUtils.isBlank(oldPwd)) {
+			model.addAttribute(Keys.JSON_DATA, JsonUtil.toJSON(-1));
+			return Keys.AJAX_JSON;
+		}
+		if (!user.getPwd().equals(genSecretPwd(oldPwd))) {
+			model.addAttribute(Keys.JSON_DATA, JsonUtil.toJSON(-1));
+			return Keys.AJAX_JSON;
+		}
 		singleService.updatePwd(user.getId(), genSecretPwd(newPwd));
-		return Keys.KEY_ADMIN_UPDATEPWD;
+		model.addAttribute(Keys.JSON_DATA, JsonUtil.toJSON(0));
+		return Keys.AJAX_JSON;
 	}
 
 	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEMENU)
