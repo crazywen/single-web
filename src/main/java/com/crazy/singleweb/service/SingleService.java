@@ -17,6 +17,8 @@ public interface SingleService {
 
 	public int findMenusCount(Menu menu, DynamicParam param);
 
+	public Entity findEntityById(int id);
+
 	public List<Entity> findEntitys(Entity entity, DynamicParam param);
 
 	public int findEntitysCount(Entity entity, DynamicParam param);

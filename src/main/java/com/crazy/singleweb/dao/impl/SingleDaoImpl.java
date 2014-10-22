@@ -180,4 +180,14 @@ public class SingleDaoImpl extends CommonDao {
 			session.close();
 		}
 	}
+
+	public Entity findEntityById(int id) {
+		SqlSession session = sessionFactory.openSession();
+		SingleMapper mapper = session.getMapper(SingleMapper.class);
+		try {
+			return mapper.findEntityById(id);
+		} finally {
+			session.close();
+		}
+	}
 }

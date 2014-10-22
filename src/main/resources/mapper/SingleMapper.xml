@@ -110,7 +110,7 @@
 
 	<update id="updateEntity">
 		update sg_entity set
-		name=#{name},`url`=#{url},link_url=#{linkUrl},tag=#{tag},remark=#{remark}
+		name=#{name},`url`=#{url},link_url=#{linkUrl},tag=#{tag}
 		where
 		id=#{id}
 	</update>

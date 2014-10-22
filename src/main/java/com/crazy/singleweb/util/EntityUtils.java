@@ -11,12 +11,6 @@ import java.util.RandomAccess;
 
 import com.crazy.singleweb.entity.BaseEntity;
 
-/**
- * @Description:
- * @Author <a href="hw86xll@163.com">Wei.Huang</a>
- * @Date 2012-10-11
- * @Version 1.0.0
- */
 public class EntityUtils {
 	public static final List<BaseEntity> EMPTY_ENTITYS = new EmptyList();
 

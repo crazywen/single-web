@@ -45,6 +45,10 @@ public class DefaultSingleServiceImpl implements SingleService {
 		return singleDao.findEntitys(entity, param);
 	}
 
+	public Entity findEntityById(int id) {
+		return singleDao.findEntityById(id);
+	}
+
 	public boolean updatePwd(int id, String pwd) {
 		return singleDao.updatePwd(id, pwd);
 	}

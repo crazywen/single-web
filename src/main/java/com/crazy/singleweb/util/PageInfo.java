@@ -1,12 +1,5 @@
 package com.crazy.singleweb.util;
 
-/**
- * 
- * @Description:分页类
- * @Author <a href="liujiawen@139130.net">Jiawen.Liu</a>
- * @Date 2014-10-17
- * @Version 1.0.0
- */
 public class PageInfo {
 	/** 记录开始位置 */
 	private int from;

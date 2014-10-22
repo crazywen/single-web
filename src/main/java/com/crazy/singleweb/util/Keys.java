@@ -21,6 +21,8 @@ public class Keys {
 	public static final String KEY_ADMIN_UPDATEMENU = "/admin/menu/update";
 	public static final String KEY_ADMIN_DELEMENU = "/admin/menu/del";
 
+	public static final String KEY_ADMIN_ENTITYIDX = "/admin/entity/index";
+	public static final String KEY_ADMIN_ENTITYLIST = "/admin/entity/list";
 	public static final String KEY_ADMIN_ADDENTITY = "/admin/entity/add";
 	public static final String KEY_ADMIN_UPDATEENTITY = "/admin/entity/update";
 	public static final String KEY_ADMIN_DELEENTITY = "/admin/entity/del";

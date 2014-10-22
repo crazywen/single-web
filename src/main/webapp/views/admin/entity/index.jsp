@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Menu Controller!</title>
+	<title>Entity Controller!</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link type="text/css" rel="stylesheet" href="${css}/common.css" />
 	<link type="text/css" rel="stylesheet" href="${flexigrid_css}" />
@@ -22,19 +22,20 @@
 		loadData(); 
 	});
 	function getSearchParams() {
-		return [{name : "name",value : $("#menuname").val()} ];
+		return [{name : "name",value : $("#entityname").val()} ];
 	}
 	function loadData() {
 		var params = getSearchParams();
-		$("#menuList").flexigrid({
-			url : "${context}/admin/menu/list",
+		$("#entityList").flexigrid({
+			url : "${context}/admin/entity/list",
 			dataType : "json",
 			params : params,
-			colModel : [{display:'菜单名称',name:'name',width:150,sortable:false,align:'center',showtitle:true}, 
-			{display : '菜单展示名称',name : 'displayName',width : 150,sortable : false,html : true,align : 'center'},
+			colModel : [{display:'案例名称',name:'name',width:150,sortable:false,align:'center',showtitle:true}, 
+			{display : '案例类型',name : 'type',width : 150,sortable : false,html : true,align : 'center'},
+			{display : '创建时间',name : 'createTime',width : 150,sortable : false,align : 'center'}, 
+			{display : '存储地址',name : 'url',width : 150,sortable : false,align : 'center'}, 
 			{display : '链接地址',name : 'linkUrl',width : 150,sortable : false,align : 'center'}, 
-			{display : '图片地址',name : 'picUrl',width : 150,sortable : false,align : 'center'}, 
-			{display : '备注',name : 'remark',width : 120,sortable : false,align : 'center'}, 
+			{display : '标识',name : 'tag',width : 120,sortable : false,align : 'center'}, 
 			{display : '操作',name : 'operate',width : 250,sortable : false,align : 'center'		} ],
 			width : "auto",
 			height : "auto",
@@ -50,8 +51,8 @@
 		var data = json.data;
 		$.each(data.rows,
 				function(i, o) {
-					var operate = '<a href="javascript:updateMenu('+o.id+');">修改</a>';
-					operate += '&nbsp;&nbsp;<a href="javascript:delMenu('+o.id+');">删除</a>&nbsp;&nbsp;';
+					var operate = '<a href="javascript:updateEntity('+o.id+');">修改</a>';
+					operate += '&nbsp;&nbsp;<a href="javascript:delEntity('+o.id+');">删除</a>&nbsp;&nbsp;';
 					o.operate = operate;
 				});
 		return data;
@@ -62,16 +63,16 @@
 	 */
 	function search() {
 		var params = getSearchParams();
-		$("#menuList").flexOptions({params : params}).flexReload();
+		$("#entityList").flexOptions({params : params}).flexReload();
 		return false;
 	}
 	
-	function showMenuDiv(){
-		showHtmlDiag(360, 440, "添加菜单", $("#addMenu"));
+	function showCaseDiv(){
+		showHtmlDiag(360, 440, "添加案例", $("#addEntity"));
 	}
 	
-	function addMenu(){
-		$.post("add?action=doAddMenu", $("#menuForm").serialize(), 
+	function addEntity(){
+		$.post("add?action=doAddEntity", $("#entityForm").serialize(), 
 				function(json) {
 					$.unblockUI();
 					if(json.ret == 0){
@@ -83,11 +84,11 @@
 				}, 'json');
 	}
 	
-	function updateMenu(id){
-		showUrlDiag(360, 440, "修改菜单", "update?action=preUpdate&id="+id);
+	function updateEntity(id){
+		showUrlDiag(360, 440, "修改案例", "update?action=preUpdate&id="+id);
 	}
 	
-	function delMenu(id){
+	function delEntity(id){
 		$.post("del", {"id":id}, 
 				function(json) {
 					$.unblockUI();
@@ -103,54 +104,50 @@
 </head>
 <body>
 	<div class="head">
-		<h1>${user.name },Welcom to Single Web Menu Controller! </h1>
+		<h1>${user.name },Welcom to Single Web Case Controller! </h1>
 	</div>
 	<div class="content">
 		<div class="nav">
 			<ul>
 				<li><a href="../index">首页</a></li>
 				<li><a href="../userinfo">个人信息</a></li>
-				<li><a href="index">菜单编辑</a></li>
-				<li><a href="../entity/index">案例管理</a></li>
+				<li><a href="../menu/index">菜单编辑</a></li>
+				<li><a href="index">案例管理</a></li>
 			</ul>
 		</div>
 		<div class="">
 			<div>
-				<a href="javascript:showMenuDiv();" title="添加菜单">AddMenu</a>
+				<a href="javascript:showCaseDiv();" title="添加示例">AddCase</a>
 			</div>
 			<ul class="serach">
-				<li>名称：<input type="text" name="menuname" id="menuname"/></li>
+				<li>名称：<input type="text" name="entityname" id="entityname"/></li>
 				<li>&nbsp;</li>
 				<li><input type="button" onclick="search();" value="查找"/></li>
 			</ul>
-			<table id="menuList"></table>
+			<table id="entityList"></table>
 		</div>
-		<div id="addMenu" style="display: none;">
-			<form id="menuForm" name="menuForm">
+		<div id="addEntity" style="display: none;">
+			<form id="entityForm" name="entityForm">
 				<table>
 					<tr>
-						<td>菜单名称:</td>
+						<td>案例名称:</td>
 						<td><input type="text" name="name" id="name"></input></td>
 					</tr>
 					<tr>
-						<td>菜单展示名称:</td>
-						<td><input type="text" name="displayName" id="displayName"></input></td>
+						<td>存储地址:</td>
+						<td><input type="text" name="url" id="url"></input></td>
 					</tr>
 					<tr>
 						<td>链接地址:</td>
 						<td><input type="text" name="linkUrl" id="linkUrl"></input></td>
 					</tr>
 					<tr>
-						<td>图片地址:</td>
-						<td><input type="text" name="picUrl" id="picUrl"></input></td>
-					</tr>
-					<tr>
-						<td>备注:</td>
-						<td><input type="text" name="remark" id="remark"></input></td>
+						<td>标识:</td>
+						<td><input type="text" name="tag" id="tag"></input></td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="button" value="添加" onclick="addMenu();"/>
+							<input type="button" value="添加" onclick="addEntity();"/>
 						</td>
 					</tr>
 				</table>

@@ -4,12 +4,6 @@
  */
 package com.crazy.singleweb.util;
 
-/**
- * @Description keys and other constants
- * @Author <a href="hw86xll@163.com">Wei.Huang</a>
- * @Date 2012-9-3
- * @Version 1.0.0
- */
 public class WebConstants {
 
 	/** 数据范围KEY */
