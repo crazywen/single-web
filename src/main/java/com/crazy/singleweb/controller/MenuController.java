@@ -46,7 +46,7 @@ public class MenuController {
 		try {
 			Menu menu = new Menu();
 			if (!StringUtil.isBlank(name)) {
-				menu.setName(name);
+				menu.setName('%' + name + '%');
 			}
 			DynamicParam param = new DynamicParam();
 			int total = singleService.findMenusCount(menu, param);
@@ -65,10 +65,13 @@ public class MenuController {
 
 	@RequestMapping(value = Keys.KEY_ADMIN_ADDMENU, params = "action=doAddMenu")
 	public String addMenu(Model model, Menu menu) {
+		String jsonData = JsonUtil.toJSON(-1);
 		if (singleService.addMenu(menu)) {
 			innerMsgService.push(InnerMsgService.MENU_UPDATE_FLAG,
 					Boolean.valueOf(true));
+			jsonData = JsonUtil.toJSON(0);
 		}
+		model.addAttribute(Keys.JSON_DATA, jsonData);
 		return Keys.AJAX_JSON;
 	}
 

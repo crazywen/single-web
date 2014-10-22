@@ -83,6 +83,7 @@ public class Menu extends BaseEntity {
 				.append("\"");
 		sb.append(",\"remark\":\"").append(StringUtil.fixJsonStr(remark))
 				.append("\"");
+		sb.append("}");
 		return sb.toString();
 	}
 

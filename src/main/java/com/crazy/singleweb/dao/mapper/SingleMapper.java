@@ -38,9 +38,9 @@ public interface SingleMapper {
 
 	public int deleteEntity(int id);
 
-	public int findEntitysCount(@Param("menu") Entity entity,
+	public int findEntitysCount(@Param("entity") Entity entity,
 			@Param("param") DynamicParam param);
 
-	public int findMenusCount(@Param("entity") Menu menu,
+	public int findMenusCount(@Param("menu") Menu menu,
 			@Param("param") DynamicParam param);
 }
