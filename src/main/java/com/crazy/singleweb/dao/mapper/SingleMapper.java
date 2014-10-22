@@ -37,4 +37,10 @@ public interface SingleMapper {
 	public int updateEntity(Entity entity);
 
 	public int deleteEntity(int id);
+
+	public int findEntitysCount(@Param("menu") Entity entity,
+			@Param("param") DynamicParam param);
+
+	public int findMenusCount(@Param("entity") Menu menu,
+			@Param("param") DynamicParam param);
 }

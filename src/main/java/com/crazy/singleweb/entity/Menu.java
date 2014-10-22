@@ -1,5 +1,7 @@
 package com.crazy.singleweb.entity;
 
+import com.crazy.singleweb.util.StringUtil;
+
 public class Menu extends BaseEntity {
 
 	private int id;
@@ -68,8 +70,20 @@ public class Menu extends BaseEntity {
 
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"id\":").append(id);
+		sb.append(",\"name\":\"").append(StringUtil.fixJsonStr(name))
+				.append("\"");
+		sb.append(",\"type\":").append(type).append("");
+		sb.append(",\"displayName\":\"")
+				.append(StringUtil.fixJsonStr(displayName)).append("\"");
+		sb.append(",\"linkUrl\":\"").append(StringUtil.fixJsonStr(linkUrl))
+				.append("\"");
+		sb.append(",\"picUrl\":\"").append(StringUtil.fixJsonStr(picUrl))
+				.append("\"");
+		sb.append(",\"remark\":\"").append(StringUtil.fixJsonStr(remark))
+				.append("\"");
+		return sb.toString();
 	}
 
 }

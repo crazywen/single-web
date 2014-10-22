@@ -20,10 +20,9 @@ public class SingleDaoImpl extends CommonDao {
 		SingleMapper mapper = session.getMapper(SingleMapper.class);
 		try {
 			return mapper.findUserByName(name);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return null;
 	}
 
 	public boolean updatePwd(int id, String pwd) {
@@ -33,10 +32,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.updatePwd(id, pwd);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public boolean updateUser(User user) {
@@ -46,10 +44,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.updateUser(user);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public List<User> findUsers(User user, DynamicParam param) {
@@ -57,10 +54,9 @@ public class SingleDaoImpl extends CommonDao {
 		SingleMapper mapper = session.getMapper(SingleMapper.class);
 		try {
 			return mapper.findUsers(user, param);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return null;
 	}
 
 	public List<Menu> findMenus(Menu menu, DynamicParam param) {
@@ -68,10 +64,9 @@ public class SingleDaoImpl extends CommonDao {
 		SingleMapper mapper = session.getMapper(SingleMapper.class);
 		try {
 			return mapper.findMenus(menu, param);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return null;
 	}
 
 	public boolean addMenu(Menu menu) {
@@ -81,10 +76,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.addMenu(menu);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public boolean updateMenu(Menu menu) {
@@ -94,10 +88,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.updateMenu(menu);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public boolean deleteMenu(int id) {
@@ -107,10 +100,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.deleteMenu(id);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public List<Entity> findEntitys(Entity entity, DynamicParam param) {
@@ -118,10 +110,9 @@ public class SingleDaoImpl extends CommonDao {
 		SingleMapper mapper = session.getMapper(SingleMapper.class);
 		try {
 			return mapper.findEntitys(entity, param);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return null;
 	}
 
 	public boolean addEntity(Entity entity) {
@@ -131,10 +122,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.addEntity(entity);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public boolean updateEntity(Entity entity) {
@@ -144,10 +134,9 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.updateEntity(entity);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	public boolean deleteEntity(int id) {
@@ -157,9 +146,28 @@ public class SingleDaoImpl extends CommonDao {
 			mapper.deleteEntity(id);
 			session.commit();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		return false;
+	}
+
+	public int findEntitysCount(Entity entity, DynamicParam param) {
+		SqlSession session = sessionFactory.openSession();
+		SingleMapper mapper = session.getMapper(SingleMapper.class);
+		try {
+			return mapper.findEntitysCount(entity, param);
+		} finally {
+			session.close();
+		}
+	}
+
+	public int findMenusCount(Menu menu, DynamicParam param) {
+		SqlSession session = sessionFactory.openSession();
+		SingleMapper mapper = session.getMapper(SingleMapper.class);
+		try {
+			return mapper.findMenusCount(menu, param);
+		} finally {
+			session.close();
+		}
 	}
 }

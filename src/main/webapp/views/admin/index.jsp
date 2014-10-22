@@ -15,8 +15,8 @@
 			<ul>
 				<li><a href="index">首页</a></li>
 				<li><a href="userinfo">个人信息</a></li>
-				<li><a href="menumgmt">菜单编辑</a></li>
-				<li><a href="entitymgmt">案例管理</a></li>
+				<li><a href="menu/index">菜单编辑</a></li>
+				<li><a href="entity/index">案例管理</a></li>
 			</ul>
 		</div>
 		<div class="">

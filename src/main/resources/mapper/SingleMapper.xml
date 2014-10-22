@@ -45,8 +45,17 @@
 	</select>
 
 	<select id="findMenus" resultMap="menu">
-		select * from sg_menu
+		select * from sg_menu where 1=1
+		<if test="menu.name != null"> and name like concat('%',#{menu.name},'%')</if>
 		<if test="param != null"> limit #{param.pi.from},#{param.pi.size} </if>
+	</select>
+	
+	<select id="findMenusCount" resultType="int">
+		select count(1) from sg_menu
+	</select>
+	
+	<select id="findEntitysCount" resultType="int">
+		select count(1) from sg_entity
 	</select>
 
 	<select id="findEntitys" resultMap="entity">

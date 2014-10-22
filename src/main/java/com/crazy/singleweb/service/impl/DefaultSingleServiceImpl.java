@@ -29,6 +29,14 @@ public class DefaultSingleServiceImpl implements SingleService {
 		return singleDao.findMenus(menu, param);
 	}
 
+	public int findMenusCount(Menu menu, DynamicParam param) {
+		return singleDao.findMenusCount(menu, param);
+	}
+
+	public int findEntitysCount(Entity entity, DynamicParam param) {
+		return singleDao.findEntitysCount(entity, param);
+	}
+
 	public List<Entity> findEntitys(Entity entity, DynamicParam param) {
 		return singleDao.findEntitys(entity, param);
 	}
