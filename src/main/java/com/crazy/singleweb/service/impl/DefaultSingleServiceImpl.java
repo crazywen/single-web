@@ -25,6 +25,10 @@ public class DefaultSingleServiceImpl implements SingleService {
 		return singleDao.findUsers(user, param);
 	}
 
+	public Menu findMenuById(int id) {
+		return singleDao.findMenuById(id);
+	}
+
 	public List<Menu> findMenus(Menu menu, DynamicParam param) {
 		return singleDao.findMenus(menu, param);
 	}

@@ -50,7 +50,8 @@
 		var data = json.data;
 		$.each(data.rows,
 				function(i, o) {
-					var operate = '';
+					var operate = '<a href="javascript:updateMenu('+o.id+');">修改</a>';
+					operate += '&nbsp;&nbsp;<a href="javascript:delMenu('+o.id+');">删除</a>&nbsp;&nbsp;';
 					o.operate = operate;
 				});
 		return data;
@@ -70,13 +71,30 @@
 	}
 	
 	function addMenu(){
-		console.log($("#menuForm").serialize());
 		$.post("add?action=doAddMenu", $("#menuForm").serialize(), 
 				function(json) {
+					$.unblockUI();
 					if(json.ret == 0){
 						alert("添加成功！");
 					}else{
 						alert("添加失败！");
+					}
+					search();
+				}, 'json');
+	}
+	
+	function updateMenu(id){
+		showUrlDiag(360, 440, "修改菜单", "update?action=preUpdate&id="+id);
+	}
+	
+	function delMenu(id){
+		$.post("del", {"id":id}, 
+				function(json) {
+					$.unblockUI();
+					if(json.ret == 0){
+						alert("删除成功！");
+					}else{
+						alert("删除失败！");
 					}
 					search();
 				}, 'json');

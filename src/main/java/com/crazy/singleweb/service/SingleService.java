@@ -12,11 +12,13 @@ public interface SingleService {
 	public User findUserByName(String name);
 
 	public List<Menu> findMenus(Menu menu, DynamicParam param);
-	
+
+	public Menu findMenuById(int id);
+
 	public int findMenusCount(Menu menu, DynamicParam param);
 
 	public List<Entity> findEntitys(Entity entity, DynamicParam param);
-	
+
 	public int findEntitysCount(Entity entity, DynamicParam param);
 
 	public List<User> findUsers(User user, DynamicParam param);

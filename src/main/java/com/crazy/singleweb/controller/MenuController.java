@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crazy.singleweb.entity.Menu;
+import com.crazy.singleweb.entity.User;
 import com.crazy.singleweb.service.InnerMsgService;
 import com.crazy.singleweb.service.SingleService;
 import com.crazy.singleweb.util.DynamicParam;
@@ -20,6 +21,7 @@ import com.crazy.singleweb.util.EntityUtils;
 import com.crazy.singleweb.util.JsonUtil;
 import com.crazy.singleweb.util.Keys;
 import com.crazy.singleweb.util.PageInfo;
+import com.crazy.singleweb.util.SessionUtil;
 import com.crazy.singleweb.util.StringUtil;
 
 @Controller
@@ -34,6 +36,8 @@ public class MenuController {
 
 	@RequestMapping(value = Keys.KEY_ADMIN_MENUIDX)
 	public String menuIdx(Model model) {
+		User user = SessionUtil.getCurUser();
+		model.addAttribute("user", user);
 		return Keys.KEY_ADMIN_MENUIDX;
 	}
 
@@ -75,12 +79,34 @@ public class MenuController {
 		return Keys.AJAX_JSON;
 	}
 
-	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEMENU)
+	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEMENU, params = "action=preUpdate")
+	public String preUpdateMenu(Model model, @RequestParam(value = "id") int id) {
+		Menu menu = singleService.findMenuById(id);
+		model.addAttribute("menu", menu);
+		return Keys.KEY_ADMIN_UPDATEMENU;
+	}
+
+	@RequestMapping(value = Keys.KEY_ADMIN_UPDATEMENU, params = "action=doUpdateMenu")
 	public String updateMenu(Model model, Menu menu) {
+		String jsonData = JsonUtil.toJSON(-1);
 		if (singleService.updateMenu(menu)) {
 			innerMsgService.push(InnerMsgService.MENU_UPDATE_FLAG,
 					Boolean.valueOf(true));
+			jsonData = JsonUtil.toJSON(0);
 		}
+		model.addAttribute(Keys.JSON_DATA, jsonData);
+		return Keys.AJAX_JSON;
+	}
+
+	@RequestMapping(value = Keys.KEY_ADMIN_DELEMENU)
+	public String delMenu(Model model, @RequestParam(value = "id") int id) {
+		String jsonData = JsonUtil.toJSON(-1);
+		if (singleService.deleteMenu(id)) {
+			innerMsgService.push(InnerMsgService.MENU_UPDATE_FLAG,
+					Boolean.valueOf(true));
+			jsonData = JsonUtil.toJSON(0);
+		}
+		model.addAttribute(Keys.JSON_DATA, jsonData);
 		return Keys.AJAX_JSON;
 	}
 

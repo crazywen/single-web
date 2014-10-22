@@ -43,4 +43,8 @@ public interface SingleMapper {
 
 	public int findMenusCount(@Param("menu") Menu menu,
 			@Param("param") DynamicParam param);
+
+	public Menu findMenuById(int id);
+
+	public Entity findEntityById(int id);
 }

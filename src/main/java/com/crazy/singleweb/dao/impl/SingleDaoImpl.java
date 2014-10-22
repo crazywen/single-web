@@ -170,4 +170,14 @@ public class SingleDaoImpl extends CommonDao {
 			session.close();
 		}
 	}
+
+	public Menu findMenuById(int id) {
+		SqlSession session = sessionFactory.openSession();
+		SingleMapper mapper = session.getMapper(SingleMapper.class);
+		try {
+			return mapper.findMenuById(id);
+		} finally {
+			session.close();
+		}
+	}
 }
