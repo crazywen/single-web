@@ -17,7 +17,10 @@
 	<script type="text/javascript" src="${flexigrid_js}"></script>
 	<script type="text/javascript" src="${flexigrid_total_js}"></script>
 	<script type="text/javascript" src="${inputSelectStyle_js}"></script>
+	<script type="text/javascript" src="${ajaxfileupload_js}"></script>
+	<script type="text/javascript" src="${scripts}/common/upload.js"></script>
 	<script type="text/javascript" language="javascript">
+	var param = {_context:'${context}'};
 	$(function(){ 
 		loadData(); 
 	});
@@ -100,6 +103,10 @@
 					search();
 				}, 'json');
 	}
+	
+	function showImg(){
+		$("#displayImg").show();
+	}
 	</script>
 </head>
 <body>
@@ -135,7 +142,15 @@
 					</tr>
 					<tr>
 						<td>存储地址:</td>
-						<td><input type="text" name="url" id="url"></input></td>
+						<td><input type="text" name="url" id="picUrl" readonly="readonly"></input>
+						<input type="hidden" name="picWidth" id="picWidth" ></input>
+						<input type="file" value="上传" name="fileUpload" id="fileUpload" onchange="ajaxFileUpload('image','add?action=doUpload')"/>
+						<a id="displyShow" name="displyShow" href="javascript:;" onclick="showImg();" style="display: none;color: #0000EE;position: relative;">预览
+							<div id="displayImg" style="display:none;border:1px solid red;position:absolute;bottom:20px; ">
+							<img id="displayUrl" src="" alt="" />
+						</div>
+						</a>
+						</td>
 					</tr>
 					<tr>
 						<td>链接地址:</td>

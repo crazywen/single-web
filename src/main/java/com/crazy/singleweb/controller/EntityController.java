@@ -1,10 +1,13 @@
 package com.crazy.singleweb.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
@@ -12,6 +15,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crazy.singleweb.entity.Entity;
 import com.crazy.singleweb.entity.User;
+import com.crazy.singleweb.file.UploadResult;
+import com.crazy.singleweb.file.UploadResult.StatusCode;
 import com.crazy.singleweb.service.SingleService;
 import com.crazy.singleweb.util.Config;
 import com.crazy.singleweb.util.DynamicParam;
 import com.crazy.singleweb.util.EntityUtils;
 import com.crazy.singleweb.util.FileUtil;
+import com.crazy.singleweb.util.HttpUtil;
 import com.crazy.singleweb.util.JsonUtil;
 import com.crazy.singleweb.util.Keys;
 import com.crazy.singleweb.util.PageInfo;
@@ -115,8 +122,9 @@ public class EntityController {
 
 	private static int maxSize = 1024 * 1024 * 20;
 
-	@RequestMapping(value = Keys.KEY_ADMIN_ADDMENU, params = "doUpload")
-	public String upload(Model model, HttpServletRequest request) {
+	@RequestMapping(value = Keys.KEY_ADMIN_ADDENTITY, params = "action=doUpload")
+	public String upload(Model model, HttpServletRequest request,
+			@RequestParam(value = "type") String type) {
 		// 案例上传
 		String jsonData = JsonUtil.toJSON(-1);
 		try {
@@ -126,7 +134,7 @@ public class EntityController {
 				errorFiled = "no nultipart!";
 				jsonData = JsonUtil.toJSON(errorFiled, -1);
 				model.addAttribute(Keys.JSON_DATA, jsonData);
-				return Keys.AJAX_JSON;
+				return Keys.AJAX_HTML;
 			} else {
 				// Create a factory for disk-based file items
 				FileItemFactory factory = new DiskFileItemFactory();
@@ -143,7 +151,7 @@ public class EntityController {
 					errorFiled = "no fill upload!";
 					jsonData = JsonUtil.toJSON(errorFiled, -1);
 					model.addAttribute(Keys.JSON_DATA, jsonData);
-					return Keys.AJAX_JSON;
+					return Keys.AJAX_HTML;
 				}
 				String path = "/files/upload/case/";
 				fileItem = (FileItem) fileItems.get(0);
@@ -155,11 +163,27 @@ public class EntityController {
 					errorFiled = "上传文件的大小不能超过" + maxSize / 1024 / 1024 + "M！";
 					jsonData = JsonUtil.toJSON(errorFiled, -1);
 					model.addAttribute(Keys.JSON_DATA, jsonData);
-					return Keys.AJAX_JSON;
+					return Keys.AJAX_HTML;
 				}
 				if (upload(fileItem, file)) {
-					jsonData = JsonUtil.toJSON("{\"path\":" + path + "}", "ok",
-							0);
+					UploadResult ret = new UploadResult(StatusCode.Success,
+							file.getName());
+					String baseUrl = HttpUtil.getBaseUrl(request);
+					ret.setOriginFileName(path);
+					ret.setNewFileName(file.getName());
+					if (type.equalsIgnoreCase("image")) {
+						ret.setFileSize(getImageWidth(file.getPath()));// 此时size为图片宽度
+					} else {
+						ret.setFileSize(file.length());// 此时size为文件大小
+					}
+					StringBuilder sb = new StringBuilder();
+					sb.append("{\"filePath\":\"")
+							.append(ret.getOriginFileName()
+									+ ret.getNewFileName()).append('\"');
+					sb.append(",\"baseUrl\":\"").append(baseUrl).append('\"');
+					sb.append(",\"size\":").append(ret.getFileSize())
+							.append("}");
+					jsonData = JsonUtil.toJSON(sb.toString(), "ok", 0);
 				}
 			}
 		} catch (Exception e) {
@@ -169,7 +193,21 @@ public class EntityController {
 			}
 		}
 		model.addAttribute(Keys.JSON_DATA, jsonData);
-		return Keys.AJAX_JSON;
+		return Keys.AJAX_HTML;
+	}
+
+	private int getImageWidth(String fileName) {
+		File file = new File(fileName);
+		if (!file.exists()) {
+			return 0;
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(file);
+			return image.getWidth();
+		} catch (Exception e) {
+		}
+		return 0;
 	}
 
 	public boolean upload(FileItem fileItem, File file) {
@@ -186,6 +224,7 @@ public class EntityController {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private String toJson(String err, String path, String localname, int width) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('{');
@@ -204,6 +243,16 @@ public class EntityController {
 		return createFile(contextPath, path, fileType);
 	}
 
+	public static final FastDateFormat fileFormat = FastDateFormat
+			.getInstance("HHmmssSSS");
+	private static AtomicInteger genrator = new AtomicInteger();
+
+	private String getSerialNum() {
+		int num = genrator.getAndIncrement();
+		num = Math.abs(num % 100);
+		return String.format("%02d", num);
+	}
+
 	private File createFile(String contextPath, String path, String fileType) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(contextPath);
@@ -211,6 +260,8 @@ public class EntityController {
 		File dir = new File(sb.toString());
 		if (!dir.exists())
 			dir.mkdirs();
+		sb.append(fileFormat.format(new Date()));
+		sb.append(getSerialNum());
 		sb.append(fileType);
 		return new File(sb.toString());
 	}
