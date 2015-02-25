@@ -160,7 +160,7 @@ public class EntityController {
 						FileUtil.getType(fileItem.getName().toLowerCase()));
 				/* 检查文件大小 */
 				if (maxSize > 0 && fileItem.getSize() > maxSize) {
-					errorFiled = "上传文件的大小不能超过" + maxSize / 1024 / 1024 + "M！";
+					errorFiled = "上传文件的大小不能超过" + (maxSize / 1024 / 1024) + "M！";
 					jsonData = JsonUtil.toJSON(errorFiled, -1);
 					model.addAttribute(Keys.JSON_DATA, jsonData);
 					return Keys.AJAX_HTML;

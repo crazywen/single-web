@@ -3,7 +3,7 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<appender name="LOG.DEBUG" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="c:/logs/debug.log" />
+		<param name="File" value="${singleweb.root}/logs/debug.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -16,7 +16,7 @@
 		</filter>
 	</appender>
 	<appender name="LOG.INFO" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="c:/logs/info.log" />
+		<param name="File" value="${singleweb.root}/logs/info.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -29,7 +29,7 @@
 		</filter>
 	</appender>
 	<appender name="LOG.WARN" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="c:/logs/warn.log" />
+		<param name="File" value="${singleweb.root}/logs/warn.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -42,7 +42,7 @@
 		</filter>
 	</appender>
 	<appender name="LOG.ERROR" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="c:/logs/error.log" />
+		<param name="File" value="${singleweb.root}/logs/error.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
